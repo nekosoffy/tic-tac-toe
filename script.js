@@ -15,10 +15,8 @@ const gameBoard = (function () {
             return;
         }
         const player = playerManager.getActivePlayer();
-        console.log(`${player.name} marked row ${row} and column ${column}...`)
+        console.log(`${player.name} marked row ${row} and column ${column}.`)
         board[row-1][column-1] = player.marker;
-        playerManager.switchPlayerTurn();
-        console.table(getBoard());
     };
 
     return { placeMark, getBoard, resetBoard };
@@ -44,21 +42,22 @@ const playerManager = (function () {
     }
     
     let activePlayer = players[0];
+
+    const getActivePlayer = () => activePlayer;
+    const resetActivePlayer = () => activePlayer = players[0];
   
     const switchPlayerTurn = () => {
       activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
-
-    const getActivePlayer = () => activePlayer;
 
     const getScore = (i) => players[i]["score"];
     const addScore = (i) => players[i]["score"]++;
     const getPlayerName = (i) => players[i]["name"];
 
     return { switchPlayerTurn, getActivePlayer, 
-        setPlayerNames, addScore, getScore, getPlayerName };
+        setPlayerNames, addScore, getScore, 
+        getPlayerName, resetActivePlayer };
 })();
-
 
 const gameController = (function () {
 
@@ -100,7 +99,6 @@ const gameController = (function () {
         const oWin = winPatterns.some(patternO);
     
         if (xWin || oWin) {
-            gameBoard.resetBoard();
             console.log("Round finished!");
     
             if (xWin) {
@@ -113,9 +111,25 @@ const gameController = (function () {
     
             console.log(`Player 1 score: ${playerManager.getScore(0)}`);
             console.log(`Player 2 score: ${playerManager.getScore(1)}`);
+            playRound();
         }
     }
 
-    return { checkWin }
+    const playTurns = () => {
+        gameBoard.placeMark(1, 1);
+        playerManager.switchPlayerTurn();
+        console.table(gameBoard.getBoard());
+        checkWin();
+    }
+
+    const playRound = () => {
+        console.log("Starting new round...");
+        gameBoard.resetBoard();
+        playerManager.resetActivePlayer();
+        playTurns();
+    }
+
+    return { checkWin, playTurns, playRound };
 })();
 
+gameController.playRound();
