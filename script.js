@@ -14,8 +14,11 @@ const gameBoard = (function () {
             console.log("Spot is already marked!");
             return;
         }
-        board[row-1][column-1] = playerManager.getActivePlayer().marker;
-        return board;
+        const player = playerManager.getActivePlayer();
+        console.log(`${player.name} marked row ${row} and column ${column}...`)
+        board[row-1][column-1] = player.marker;
+        playerManager.switchPlayerTurn();
+        return getBoard();
     };
 
     return { placeMark, getBoard, resetBoard };
@@ -24,22 +27,22 @@ const gameBoard = (function () {
 const playerManager = (function () {
     const players = [
         {
-            name: null,
+            name: "Player 1",
             marker: "X",
             score: 0
         },
         {
-            name: null,
+            name: "Player 2",
             marker: "O",
             score: 0
         }
     ];
 
-    const getPlayerNames = (name1, name2) => {
+    const setPlayerNames = (name1, name2) => {
         players[0]["name"] = name1;
         players[1]["name"] = name2;
     }
-
+    
     let activePlayer = players[0];
   
     const switchPlayerTurn = () => {
@@ -52,5 +55,5 @@ const playerManager = (function () {
     const addScore = (i) => players[i]["score"]++;
 
     return { switchPlayerTurn, getActivePlayer, 
-        getPlayerNames, addScore, getScore };
+        setPlayerNames, addScore, getScore };
 })();
