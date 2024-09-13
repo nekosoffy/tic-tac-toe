@@ -5,7 +5,7 @@ const gameBoard = (function () {
     const getBoard = () => board;
 
     const placeMark = (row, column) => {
-        board[row-1][column-1] = playerManager.players.marker;
+        board[row-1][column-1] = playerManager.getActivePlayer().marker;
         return board;
     }
 
@@ -14,6 +14,7 @@ const gameBoard = (function () {
 })();
 
 const playerManager = (function () {
+
     const players = [
         {
             name: null,
@@ -32,9 +33,18 @@ const playerManager = (function () {
         players[1]["name"] = name2;
     }
 
+    let activePlayer = players[0];
+  
+    const switchPlayerTurn = () => {
+      activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+    const getActivePlayer = () => activePlayer;
+
     const getScore = (i) => players[i]["score"];
     const addScore = (i) => players[i]["score"]++;
 
-    return { getPlayerNames, addScore, getScore, players };
+    return { switchPlayerTurn, getActivePlayer, 
+        getPlayerNames, addScore, getScore };
 
 })();
