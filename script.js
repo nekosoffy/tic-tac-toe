@@ -5,9 +5,17 @@ const gameBoard = (function () {
     const getBoard = () => board;
 
     const placeMark = (row, column) => {
+        if (row < 1 || row > 3 || column < 1 || column > 3) {
+            console.log("Invalid value!");
+            return;
+        }
+        if (board[row-1][column-1] !== null) {
+            console.log("Spot is already marked!");
+            return;
+        }
         board[row-1][column-1] = playerManager.getActivePlayer().marker;
         return board;
-    }
+    };
 
     return { placeMark, getBoard };
 
