@@ -5,3 +5,15 @@ const gameBoard = (function () {
     return { board };
 
 })();
+
+const Player = (function () {
+    const create = (name, mark) => {
+        return {
+            playerName: name,
+            mark: mark
+        };
+    };
+
+    return { create };
+
+})();
