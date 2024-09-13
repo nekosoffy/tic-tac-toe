@@ -4,8 +4,8 @@ const gameBoard = (function () {
 
     const getBoard = () => board;
 
-    const placeMark = (row, column, player) => {
-        board[row-1][column-1] = player.mark;
+    const placeMark = (row, column) => {
+        board[row-1][column-1] = playerManager.players.marker;
         return board;
     }
 
@@ -13,18 +13,28 @@ const gameBoard = (function () {
 
 })();
 
-const player = (function () {
-    const create = (name, mark) => {
-        return {
-            playerName: name,
-            mark: mark
-        };
-    };
+const playerManager = (function () {
+    const players = [
+        {
+            name: null,
+            marker: "X",
+            score: 0
+        },
+        {
+            name: null,
+            marker: "O",
+            score: 0
+        }
+    ];
 
-    let score = 0;
-    const getScore = () => score;
-    const addScore = () => score++;
+    const getPlayerNames = (name1, name2) => {
+        players[0]["name"] = name1;
+        players[1]["name"] = name2;
+    }
 
-    return { create, getScore, addScore };
+    const getScore = (i) => players[i]["score"];
+    const addScore = (i) => players[i]["score"]++;
+
+    return { getPlayerNames, addScore, getScore, players };
 
 })();
