@@ -1,8 +1,9 @@
 const gameBoard = (function () {
-    const boardSide = 3;
-    const board = Array.from({ length: boardSide }, () => Array(boardSide).fill(null));
+    let board;
 
     const getBoard = () => board;
+
+    const resetBoard = () => board = Array.from({ length: 3 }, () => Array(3).fill(null));
 
     const placeMark = (row, column) => {
         if (row < 1 || row > 3 || column < 1 || column > 3) {
@@ -17,12 +18,10 @@ const gameBoard = (function () {
         return board;
     };
 
-    return { placeMark, getBoard };
-
+    return { placeMark, getBoard, resetBoard };
 })();
 
 const playerManager = (function () {
-
     const players = [
         {
             name: null,
@@ -54,5 +53,4 @@ const playerManager = (function () {
 
     return { switchPlayerTurn, getActivePlayer, 
         getPlayerNames, addScore, getScore };
-
 })();
