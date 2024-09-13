@@ -21,6 +21,10 @@ const player = (function () {
         };
     };
 
-    return { create };
+    let score = 0;
+    const getScore = () => score;
+    const addScore = () => score++;
+
+    return { create, getScore, addScore };
 
 })();
