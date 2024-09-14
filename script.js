@@ -18,6 +18,8 @@ const gameBoard = (function () {
         console.log(`${player.name} marked row ${row} and column ${column}.`)
         board[row-1][column-1] = player.marker;
         playerManager.switchPlayerTurn();
+        display.updateBoard();
+        gameController.checkGameEnd();
     };
 
     return { placeMark, getBoard, resetBoard };
@@ -117,49 +119,64 @@ const gameController = (function () {
             
         console.log(`Player 1 score: ${playerManager.getScore(0)}`);
         console.log(`Player 2 score: ${playerManager.getScore(1)}`);
+        gameOn = "false";
         }
-    }
-
-    const playTurns = (row, column) => {
-        gameBoard.placeMark(row, column);
-        display.updateBoard();
-        checkGameEnd();
     }
 
     const playRound = () => {
         console.log("Starting new round...");
+        gameOn = "true";
         gameBoard.resetBoard();
+        display.updateBoard();
         playerManager.resetActivePlayer();
-        playTurns(1,1);
-        playTurns(1,2);
-        playTurns(1,3);
-        playTurns(2,2);
-        playTurns(2,3);
-        playTurns(2,1);
-        playTurns(3,2);
-        playTurns(3,3);
-        playTurns(3,1);
     }
 
-    return { checkGameEnd, playTurns, playRound };
+    let gameOn = "true";
+    const getGameOn = () => gameOn;
+
+    return { checkGameEnd, playRound, getGameOn };
 })();
 
 const display = (function() {
 
+    const grid = document.querySelector("#grid");
+
     const updateBoard = () => {
-        const grid = document.querySelector("#grid");
         grid.replaceChildren();
+        const board = gameBoard.getBoard();
 
-        const rows = gameBoard.getBoard().flat();
-
-        rows.forEach((element, i) => {
-            const div = document.createElement("div");
-            if (element !== null) {
-                div.classList.add(element === "X" ? "cross" : "circle");
+        board.forEach((array, i) => {
+            for (let j = 0; j < 3; j++) {
+                const element = array[j];
+                const div = document.createElement("div");
+                div.classList.add("cell");
+                div.setAttribute("data-row", i);
+                div.setAttribute("data-column", j);
+                if (element === "X") {
+                    div.classList.add("cross");
+                } else if (element === "O") {
+                    div.classList.add("circle");
+                }
+                grid.appendChild(div);
             }
-            grid.appendChild(div);
-        })
+        });
     }
 
-    return { updateBoard };
+    handleClick = (event) => {
+        if (gameController.getGameOn() === "true") {
+            const cell = event.target;
+            const row = parseInt((cell.dataset.row)) + 1;
+            const column = parseInt((cell.dataset.column)) + 1;
+            if (cell.classList.contains("cell")) {
+                gameBoard.placeMark(row, column);
+            }
+        }
+    }
+
+    grid.addEventListener("click", handleClick);
+
+    return { updateBoard, handleClick };
 })();
+
+gameBoard.resetBoard();
+display.updateBoard();
