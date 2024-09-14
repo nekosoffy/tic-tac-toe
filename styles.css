@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'exoregular';
+    src: url('./fonts/exo-regular-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 *, *::before, *::after {
     box-sizing: border-box;
   }
@@ -9,11 +16,15 @@
 
 :root {
     font-size: 62.5%;
+    --main-font-color: rgb(14, 14, 14);
+    --background-color: rgb(112, 145, 230);
 }
 
 body {
     -webkit-font-smoothing: antialiased;
     font-size: 1.6rem;
+    font-family: "exoregular";
+    background-color: var(--background-color);
 }
 
 img, picture, video, canvas, svg {
@@ -27,4 +38,30 @@ input, button, textarea, select {
 
 p, h1, h2, h3, h4, h5, h6 {
     overflow-wrap: break-word;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 30px;
+}
+
+h1 {
+    color: var(--main-font-color);
+}
+
+#grid {
+    width: max-content;
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    background-color: var(--main-font-color);
+    gap: 10px;
+}
+
+#grid > div {
+    background-color: var(--background-color);
 }
