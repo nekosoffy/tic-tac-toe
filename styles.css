@@ -18,7 +18,7 @@
     font-size: 62.5%;
     --main-font-color: rgb(14, 14, 14);
     --background-color: rgb(112, 145, 230);
-    --circle-color: rgb(168, 74, 74);
+    --circle-color: rgb(153, 63, 63);
     --cross-color: rgb(50, 50, 136);
 }
 
@@ -129,4 +129,32 @@ label {
 
 #play-again, #restart-game {
     display: none;
+}
+
+h3 {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+#player-one-title,
+#player-two-title {
+    font-weight: bold;
+}
+
+#player-one-title {
+    color: var(--cross-color);
+}
+
+#player-two-title {
+    color: var(--circle-color);
+}
+
+h3 span {
+    font-size: 2rem;
+}
+
+#score-wrapper {
+    display: none;
+    text-align: center;
 }

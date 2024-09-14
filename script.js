@@ -122,8 +122,7 @@ const gameController = (function () {
                 console.log(`It's a tie!`);  
             }
             
-        console.log(`Player 1 score: ${playerManager.getScore(0)}`);
-        console.log(`Player 2 score: ${playerManager.getScore(1)}`);
+        display.showScore();
         gameOn = false;
         display.playAgainButton.style.display = "block";
         }
@@ -131,6 +130,8 @@ const gameController = (function () {
 
     const playRound = () => {
         console.log("Starting new round...");
+        display.score.style.display = "block";
+        display.showScore();
         gameOn = true;
         gameBoard.resetBoard();
         display.updateBoard();
@@ -161,6 +162,11 @@ const display = (function() {
     const playAgainButton = document.querySelector("#play-again");
     const wrapper = document.querySelectorAll(".button-wrapper");
     const restartButton = document.querySelector("#restart-game");
+    const pOneTitle = document.querySelector("#player-one-title");
+    const pTwoTitle = document.querySelector("#player-two-title");
+    const pOneScore = document.querySelector("#player-one-score");
+    const pTwoScore = document.querySelector("#player-two-score");
+    const score = document.querySelector("#score-wrapper");
 
     const updateBoard = () => {
         showGrid();
@@ -233,14 +239,23 @@ const display = (function() {
             startButton.style.display = "block";
             restartButton.style.display = "none";
             playAgainButton.style.display = "none";
+            score.style.display = "none";
         }
+    }
+
+    const showScore = () => {
+        pOneTitle.textContent = `${playerManager.getPlayerName(0)}: `;
+        pTwoTitle.textContent = `${playerManager.getPlayerName(1)}: `;
+        pOneScore.textContent = `${playerManager.getScore(0)}`;
+        pTwoScore.textContent = `${playerManager.getScore(1)}`;
     }
 
     wrapper.forEach(button => button.addEventListener("click", handleButtonClick));
     grid.addEventListener("click", handleCellClick);
     form.addEventListener("submit", handleSubmit);
 
-    return { updateBoard, playAgainButton, restartButton };
+    return { updateBoard, playAgainButton, 
+        restartButton, showScore, score };
 })();
 
 gameBoard.resetBoard();
