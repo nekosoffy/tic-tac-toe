@@ -117,7 +117,7 @@ input {
     display: block;
 }
 
-#button-wrapper {
+.button-wrapper {
     display: flex;
     gap: 20px;
     float: inline-end;
@@ -127,6 +127,6 @@ label {
     font-weight: bold;
 }
 
-#play-again {
+#play-again, #restart-game {
     display: none;
 }

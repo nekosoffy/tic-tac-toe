@@ -55,11 +55,16 @@ const playerManager = (function () {
 
     const getScore = (i) => players[i]["score"];
     const addScore = (i) => players[i]["score"]++;
+
+    const resetScore = () => {
+        players.forEach(player => player.score = 0);
+    }
+
     const getPlayerName = (i) => players[i]["name"];
 
     return { switchPlayerTurn, getActivePlayer, 
         setPlayerNames, addScore, getScore, 
-        getPlayerName, resetActivePlayer };
+        resetScore, getPlayerName, resetActivePlayer };
 })();
 
 const gameController = (function () {
@@ -120,7 +125,7 @@ const gameController = (function () {
         console.log(`Player 1 score: ${playerManager.getScore(0)}`);
         console.log(`Player 2 score: ${playerManager.getScore(1)}`);
         gameOn = false;
-        playAgainButton.style.display = "block";
+        display.playAgainButton.style.display = "block";
         }
     }
 
@@ -130,14 +135,20 @@ const gameController = (function () {
         gameBoard.resetBoard();
         display.updateBoard();
         playerManager.resetActivePlayer();
+        display.restartButton.style.display = "block";
+    }
+
+    const resetGame = () => {
+        gameOn = false;
+        gameBoard.resetBoard();
+        playerManager.resetScore();
+        playerManager.setPlayerNames("Player 1", "Player 2");
     }
 
     let gameOn = false;
     const getGameOn = () => gameOn;
 
-    const playAgainButton = document.querySelector("#play-again");
-
-    return { checkGameEnd, playRound, getGameOn };
+    return { checkGameEnd, playRound, getGameOn, resetGame };
 })();
 
 const display = (function() {
@@ -145,10 +156,11 @@ const display = (function() {
     const grid = document.querySelector("#grid");
     const startButton = document.querySelector("#start-game");
     const dialog = document.querySelector("dialog");
-    const cancelButton = document.querySelector("#cancel");
     const form = document.querySelector("form");
     const inputs = document.querySelectorAll("input");
     const playAgainButton = document.querySelector("#play-again");
+    const wrapper = document.querySelectorAll(".button-wrapper");
+    const restartButton = document.querySelector("#restart-game");
 
     const updateBoard = () => {
         showGrid();
@@ -201,22 +213,34 @@ const display = (function() {
         grid.style.display = gridOn ? "grid" : "none";
     };
 
-    const handlePlayAgain = () => {
-        gameController.playRound();
-        playAgainButton.style.display = "none";
+    const handleButtonClick = (event) => {
+        button = event.target;
+        if (button.matches("#start-game")) {
+            dialog.showModal()
+        }
+        if (button.matches("#play-again")) {
+            gameController.playRound();
+            playAgainButton.style.display = "none";
+        }
+        if (button.matches("#cancel")) {
+            dialog.close();
+            form.reset();
+        }
+        if (button.matches("#restart-game")) {
+            gridOn = false;
+            showGrid();
+            gameController.resetGame();
+            startButton.style.display = "block";
+            restartButton.style.display = "none";
+            playAgainButton.style.display = "none";
+        }
     }
 
+    wrapper.forEach(button => button.addEventListener("click", handleButtonClick));
     grid.addEventListener("click", handleCellClick);
-    startButton.addEventListener("click", () => dialog.showModal());
     form.addEventListener("submit", handleSubmit);
-    playAgainButton.addEventListener("click", handlePlayAgain);
-    
-    cancelButton.addEventListener("click", () => {
-        dialog.close();
-        form.reset();
-    });
 
-    return { updateBoard };
+    return { updateBoard, playAgainButton, restartButton };
 })();
 
 gameBoard.resetBoard();
