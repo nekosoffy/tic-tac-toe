@@ -1,0 +1,7 @@
+<!-- tic-tac-toe-cross.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <!-- Diagonal Line from Top Left to Bottom Right -->
+  <line x1="18" y1="18" x2="82" y2="82" stroke="rgb(50, 50, 136)" stroke-width="8" />
+  <!-- Diagonal Line from Top Right to Bottom Left -->
+  <line x1="82" y1="18" x2="18" y2="82" stroke="rgb(50, 50, 136)" stroke-width="8" />
+</svg>

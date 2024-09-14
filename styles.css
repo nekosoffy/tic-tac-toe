@@ -18,6 +18,8 @@
     font-size: 62.5%;
     --main-font-color: rgb(14, 14, 14);
     --background-color: rgb(112, 145, 230);
+    --circle-color: rgb(168, 74, 74);
+    --cross-color: rgb(50, 50, 136);
 }
 
 body {
@@ -60,8 +62,22 @@ h1 {
     grid-template-rows: repeat(3, 100px);
     background-color: var(--main-font-color);
     gap: 10px;
+    justify-content: center;
+    align-content: center;
 }
 
 #grid > div {
     background-color: var(--background-color);
+}
+
+.circle {
+    background-image: url(./images/circle.svg);
+    background-size: cover;
+    background-repeat: no-repeat; /* Prevent background image from repeating */
+}
+
+.cross {
+    background-image: url(./images/cross.svg);
+    background-size: cover;
+    background-repeat: no-repeat; /* Prevent background image from repeating */
 }

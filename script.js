@@ -114,7 +114,7 @@ const gameController = (function () {
             } else if (boardFull()) {
                 console.log(`It's a tie!`);  
             }
-
+            
         console.log(`Player 1 score: ${playerManager.getScore(0)}`);
         console.log(`Player 2 score: ${playerManager.getScore(1)}`);
         }
@@ -122,7 +122,7 @@ const gameController = (function () {
 
     const playTurns = (row, column) => {
         gameBoard.placeMark(row, column);
-        console.table(gameBoard.getBoard());
+        display.updateBoard();
         checkGameEnd();
     }
 
@@ -144,4 +144,20 @@ const gameController = (function () {
     return { checkGameEnd, playTurns, playRound };
 })();
 
-gameController.playRound();
+const display = (function() {
+
+    const updateBoard = () => {
+        const grid = document.querySelector("#grid");
+        grid.replaceChildren();
+
+        const rows = gameBoard.getBoard().flat();
+
+        rows.forEach(element => {
+        const div = document.createElement("div");
+        div.classList.add(element === "X" ? "cross" : "circle");
+        grid.appendChild(div);
+        })
+    }
+
+    return { updateBoard };
+})();
