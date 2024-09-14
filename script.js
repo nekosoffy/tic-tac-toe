@@ -17,6 +17,7 @@ const gameBoard = (function () {
         const player = playerManager.getActivePlayer();
         console.log(`${player.name} marked row ${row} and column ${column}.`)
         board[row-1][column-1] = player.marker;
+        playerManager.switchPlayerTurn();
     };
 
     return { placeMark, getBoard, resetBoard };
@@ -61,8 +62,9 @@ const playerManager = (function () {
 
 const gameController = (function () {
 
-    const checkWin = () => {
+    const checkGameEnd = () => {
         let board = gameBoard.getBoard();
+
         const winPatterns = 
         [
         // Horizontal checks
@@ -97,8 +99,10 @@ const gameController = (function () {
 
         const xWin = winPatterns.some(patternX);
         const oWin = winPatterns.some(patternO);
+        
+        const boardFull = () => board.every(row => !row.includes(null));
     
-        if (xWin || oWin) {
+        if (xWin || oWin || boardFull()) {
             console.log("Round finished!");
     
             if (xWin) {
@@ -107,29 +111,37 @@ const gameController = (function () {
             } else if (oWin) {
                 console.log(`${playerManager.getPlayerName(1)} won!`);
                 playerManager.addScore(1);
+            } else if (boardFull()) {
+                console.log(`It's a tie!`);  
             }
-    
-            console.log(`Player 1 score: ${playerManager.getScore(0)}`);
-            console.log(`Player 2 score: ${playerManager.getScore(1)}`);
-            playRound();
+
+        console.log(`Player 1 score: ${playerManager.getScore(0)}`);
+        console.log(`Player 2 score: ${playerManager.getScore(1)}`);
         }
     }
 
-    const playTurns = () => {
-        gameBoard.placeMark(1, 1);
-        playerManager.switchPlayerTurn();
+    const playTurns = (row, column) => {
+        gameBoard.placeMark(row, column);
         console.table(gameBoard.getBoard());
-        checkWin();
+        checkGameEnd();
     }
 
     const playRound = () => {
         console.log("Starting new round...");
         gameBoard.resetBoard();
         playerManager.resetActivePlayer();
-        playTurns();
+        playTurns(1,1);
+        playTurns(1,2);
+        playTurns(1,3);
+        playTurns(2,2);
+        playTurns(2,3);
+        playTurns(2,1);
+        playTurns(3,2);
+        playTurns(3,3);
+        playTurns(3,1);
     }
 
-    return { checkWin, playTurns, playRound };
+    return { checkGameEnd, playTurns, playRound };
 })();
 
 gameController.playRound();
