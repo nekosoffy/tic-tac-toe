@@ -152,10 +152,12 @@ const display = (function() {
 
         const rows = gameBoard.getBoard().flat();
 
-        rows.forEach(element => {
-        const div = document.createElement("div");
-        div.classList.add(element === "X" ? "cross" : "circle");
-        grid.appendChild(div);
+        rows.forEach((element, i) => {
+            const div = document.createElement("div");
+            if (element !== null) {
+                div.classList.add(element === "X" ? "cross" : "circle");
+            }
+            grid.appendChild(div);
         })
     }
 
