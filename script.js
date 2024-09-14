@@ -7,15 +7,15 @@ const gameBoard = (function () {
 
     const placeMark = (row, column) => {
         if (row < 1 || row > 3 || column < 1 || column > 3) {
-            console.log("Invalid value!");
+            display.showLog("Invalid value!");
             return;
         }
         if (board[row-1][column-1] !== null) {
-            console.log("Spot is already marked!");
+            display.showLog("Spot is already marked!");
             return;
         }
         const player = playerManager.getActivePlayer();
-        console.log(`${player.name} marked row ${row} and column ${column}.`)
+        display.showLog(`${player.name} marked row ${row} and column ${column}.`);
         board[row-1][column-1] = player.marker;
         playerManager.switchPlayerTurn();
         display.updateBoard();
@@ -110,18 +110,17 @@ const gameController = (function () {
         const boardFull = () => board.every(row => !row.includes(null));
     
         if (xWin || oWin || boardFull()) {
-            console.log("Round finished!");
+            display.showLog("Round finished!");
     
             if (xWin) {
-                console.log(`${playerManager.getPlayerName(0)} won!`);
+                display.showLog(`${playerManager.getPlayerName(0)} won!`);
                 playerManager.addScore(0);
             } else if (oWin) {
-                console.log(`${playerManager.getPlayerName(1)} won!`);
+                display.showLog(`${playerManager.getPlayerName(1)} won!`);
                 playerManager.addScore(1);
             } else if (boardFull()) {
-                console.log(`It's a tie!`);  
+                display.showLog(`It's a tie!`);  
             }
-            
         display.showScore();
         gameOn = false;
         display.playAgainButton.style.display = "block";
@@ -129,14 +128,15 @@ const gameController = (function () {
     }
 
     const playRound = () => {
-        console.log("Starting new round...");
         display.score.style.display = "block";
-        display.showScore();
+        display.p.style.display = "block";
+        display.restartButton.style.display = "block";
+        display.p.textContent = "Round started.";
         gameOn = true;
+        display.showScore();
         gameBoard.resetBoard();
         display.updateBoard();
         playerManager.resetActivePlayer();
-        display.restartButton.style.display = "block";
     }
 
     const resetGame = () => {
@@ -167,6 +167,7 @@ const display = (function() {
     const pOneScore = document.querySelector("#player-one-score");
     const pTwoScore = document.querySelector("#player-two-score");
     const score = document.querySelector("#score-wrapper");
+    const p = document.querySelector("p");
 
     const updateBoard = () => {
         showGrid();
@@ -240,6 +241,8 @@ const display = (function() {
             restartButton.style.display = "none";
             playAgainButton.style.display = "none";
             score.style.display = "none";
+            p.style.display = "none";
+            p.replaceChildren();
         }
     }
 
@@ -250,12 +253,17 @@ const display = (function() {
         pTwoScore.textContent = `${playerManager.getScore(1)}`;
     }
 
+    const showLog = (text) => {
+        p.replaceChildren();
+        p.textContent = text;
+    }
+
     wrapper.forEach(button => button.addEventListener("click", handleButtonClick));
     grid.addEventListener("click", handleCellClick);
     form.addEventListener("submit", handleSubmit);
 
-    return { updateBoard, playAgainButton, 
-        restartButton, showScore, score };
+    return { updateBoard, playAgainButton, p, 
+        restartButton, showScore, score, showLog };
 })();
 
 gameBoard.resetBoard();
