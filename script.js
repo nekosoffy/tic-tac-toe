@@ -120,6 +120,7 @@ const gameController = (function () {
         console.log(`Player 1 score: ${playerManager.getScore(0)}`);
         console.log(`Player 2 score: ${playerManager.getScore(1)}`);
         gameOn = false;
+        playAgainButton.style.display = "block";
         }
     }
 
@@ -134,6 +135,8 @@ const gameController = (function () {
     let gameOn = false;
     const getGameOn = () => gameOn;
 
+    const playAgainButton = document.querySelector("#play-again");
+
     return { checkGameEnd, playRound, getGameOn };
 })();
 
@@ -145,6 +148,7 @@ const display = (function() {
     const cancelButton = document.querySelector("#cancel");
     const form = document.querySelector("form");
     const inputs = document.querySelectorAll("input");
+    const playAgainButton = document.querySelector("#play-again");
 
     const updateBoard = () => {
         showGrid();
@@ -168,7 +172,7 @@ const display = (function() {
         });
     }
 
-    handleCellClick = (event) => {
+    const handleCellClick = (event) => {
         if (gameController.getGameOn() === true) {
             const cell = event.target;
             const row = parseInt((cell.dataset.row)) + 1;
@@ -189,8 +193,6 @@ const display = (function() {
         gridOn = true;
         showGrid();
         gameController.playRound();
-        
-
     }
 
     let gridOn = false;
@@ -199,15 +201,20 @@ const display = (function() {
         grid.style.display = gridOn ? "grid" : "none";
     };
 
+    const handlePlayAgain = () => {
+        gameController.playRound();
+        playAgainButton.style.display = "none";
+    }
+
     grid.addEventListener("click", handleCellClick);
     startButton.addEventListener("click", () => dialog.showModal());
     form.addEventListener("submit", handleSubmit);
+    playAgainButton.addEventListener("click", handlePlayAgain);
     
     cancelButton.addEventListener("click", () => {
         dialog.close();
         form.reset();
     });
-
 
     return { updateBoard };
 })();

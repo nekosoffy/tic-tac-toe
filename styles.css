@@ -48,7 +48,7 @@ main {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    gap: 10px;
+    gap: 20px;
 }
 
 h1 {
@@ -125,4 +125,8 @@ input {
 
 label {
     font-weight: bold;
+}
+
+#play-again {
+    display: none;
 }
