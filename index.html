@@ -10,8 +10,30 @@
 <body>
     <main>
     <h1>Tic-Tac-Toe!</h1>
+    <dialog>
+        <form>
+            <fieldset>
+                <legend>Pick a name for the players</legend>
+
+                <div>
+                    <label for="player1">Player 1 (Cross)</label>
+                    <input type="text" id="player1" name="player1" value="Player 1" required/>
+                </div>
+
+                <div>
+                    <label for="player2">Player 2 (Circle)</label>
+                    <input type="text" id="player2" name="player2" value="Player 2" required/>
+                </div>
+            </fieldset>
+            <div id="button-wrapper">
+                <button type="button" id="cancel">Cancel</button>
+                <button type="submit" id="confirm">Confirm</button>
+            </div>
+        </form>
+    </dialog>
     <div id="grid">
     </div>
+    <button type="button" id="start-game">Start Game</button>
     </main>
 </body>
 </html>

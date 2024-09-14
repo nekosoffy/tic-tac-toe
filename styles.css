@@ -48,7 +48,7 @@ main {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    gap: 30px;
+    gap: 10px;
 }
 
 h1 {
@@ -80,4 +80,49 @@ h1 {
     background-image: url(./images/cross.svg);
     background-size: cover;
     background-repeat: no-repeat; /* Prevent background image from repeating */
+}
+
+button {
+    background-color: rgb(235, 124, 72);
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px -2px #0e0e0e;
+    border: none;
+    padding: 10px;
+}
+
+button:active,
+button:hover {
+    cursor: pointer;
+    background-color: rgb(206, 107, 61);
+}
+
+button:active {
+    box-shadow: none;
+    transform: scale(0.96);
+}
+
+dialog {
+    position: absolute;
+    margin: auto auto;
+}
+
+fieldset {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+
+input {
+    display: block;
+}
+
+#button-wrapper {
+    display: flex;
+    gap: 20px;
+    float: inline-end;
+}
+
+label {
+    font-weight: bold;
 }

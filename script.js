@@ -119,19 +119,19 @@ const gameController = (function () {
             
         console.log(`Player 1 score: ${playerManager.getScore(0)}`);
         console.log(`Player 2 score: ${playerManager.getScore(1)}`);
-        gameOn = "false";
+        gameOn = false;
         }
     }
 
     const playRound = () => {
         console.log("Starting new round...");
-        gameOn = "true";
+        gameOn = true;
         gameBoard.resetBoard();
         display.updateBoard();
         playerManager.resetActivePlayer();
     }
 
-    let gameOn = "true";
+    let gameOn = false;
     const getGameOn = () => gameOn;
 
     return { checkGameEnd, playRound, getGameOn };
@@ -140,8 +140,14 @@ const gameController = (function () {
 const display = (function() {
 
     const grid = document.querySelector("#grid");
+    const startButton = document.querySelector("#start-game");
+    const dialog = document.querySelector("dialog");
+    const cancelButton = document.querySelector("#cancel");
+    const form = document.querySelector("form");
+    const inputs = document.querySelectorAll("input");
 
     const updateBoard = () => {
+        showGrid();
         grid.replaceChildren();
         const board = gameBoard.getBoard();
 
@@ -162,8 +168,8 @@ const display = (function() {
         });
     }
 
-    handleClick = (event) => {
-        if (gameController.getGameOn() === "true") {
+    handleCellClick = (event) => {
+        if (gameController.getGameOn() === true) {
             const cell = event.target;
             const row = parseInt((cell.dataset.row)) + 1;
             const column = parseInt((cell.dataset.column)) + 1;
@@ -173,9 +179,37 @@ const display = (function() {
         }
     }
 
-    grid.addEventListener("click", handleClick);
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const inputValues = Array.from(inputs).map(input => input.value);
+        playerManager.setPlayerNames(inputValues[0],inputValues[1]);
+        dialog.close();
+        form.reset();
+        startButton.style.display = "none";
+        gridOn = true;
+        showGrid();
+        gameController.playRound();
+        
 
-    return { updateBoard, handleClick };
+    }
+
+    let gridOn = false;
+
+    const showGrid = () => {
+        grid.style.display = gridOn ? "grid" : "none";
+    };
+
+    grid.addEventListener("click", handleCellClick);
+    startButton.addEventListener("click", () => dialog.showModal());
+    form.addEventListener("submit", handleSubmit);
+    
+    cancelButton.addEventListener("click", () => {
+        dialog.close();
+        form.reset();
+    });
+
+
+    return { updateBoard };
 })();
 
 gameBoard.resetBoard();
