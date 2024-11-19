@@ -1,164 +1,180 @@
 @font-face {
-    font-family: 'exoregular';
-    src: url('./fonts/exo-regular-webfont.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'exoregular';
+  src: url('./fonts/exo-regular-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 * {
-    margin: 0;
-    line-height: calc(2px + 2ex + 2px);
+  margin: 0;
+  line-height: calc(2px + 2ex + 2px);
 }
 
 :root {
-    font-size: 62.5%;
-    --main-font-color: rgb(14, 14, 14);
-    --background-color: rgb(112, 145, 230);
-    --circle-color: rgb(153, 63, 63);
-    --cross-color: rgb(50, 50, 136);
+  font-size: 62.5%;
+  --main-font-color: rgb(14, 14, 14);
+  --background-color: rgb(112, 145, 230);
+  --circle-color: rgb(153, 63, 63);
+  --cross-color: rgb(50, 50, 136);
 }
 
 body {
-    -webkit-font-smoothing: antialiased;
-    font-size: 1.6rem;
-    font-family: "exoregular";
-    background-color: var(--background-color);
+  -webkit-font-smoothing: antialiased;
+  font-size: 1.6rem;
+  font-family: 'exoregular';
+  background-color: var(--background-color);
 }
 
-img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-input, button, textarea, select {
-    font: inherit;
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 20px;
 }
 
 h1 {
-    color: var(--main-font-color);
+  color: var(--main-font-color);
 }
 
 #grid {
-    width: max-content;
-    display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    background-color: var(--main-font-color);
-    gap: 10px;
-    justify-content: center;
-    align-content: center;
+  width: max-content;
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  background-color: var(--main-font-color);
+  gap: 10px;
+  justify-content: center;
+  align-content: center;
 }
 
 #grid > div {
-    background-color: var(--background-color);
+  background-color: var(--background-color);
 }
 
 .circle {
-    background-image: url(./images/circle.svg);
-    background-size: cover;
-    background-repeat: no-repeat; /* Prevent background image from repeating */
+  background-image: url(./images/circle.svg);
+  background-size: cover;
+  background-repeat: no-repeat; /* Prevent background image from repeating */
 }
 
 .cross {
-    background-image: url(./images/cross.svg);
-    background-size: cover;
-    background-repeat: no-repeat; /* Prevent background image from repeating */
+  background-image: url(./images/cross.svg);
+  background-size: cover;
+  background-repeat: no-repeat; /* Prevent background image from repeating */
 }
 
 button {
-    background-color: rgb(235, 124, 72);
-    border-radius: 8px;
-    font-weight: bold;
-    box-shadow: 2px 2px 5px -2px #0e0e0e;
-    border: none;
-    padding: 10px;
+  background-color: rgb(235, 124, 72);
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 2px 2px 5px -2px #0e0e0e;
+  border: none;
+  padding: 10px;
 }
 
 button:active,
 button:hover {
-    cursor: pointer;
-    background-color: rgb(206, 107, 61);
+  cursor: pointer;
+  background-color: rgb(206, 107, 61);
 }
 
 button:active {
-    box-shadow: none;
-    transform: scale(0.96);
+  box-shadow: none;
+  transform: scale(0.96);
 }
 
 dialog {
-    position: absolute;
-    margin: auto auto;
+  position: absolute;
+  margin: auto auto;
 }
 
 fieldset {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 10px;
+  display: flex;
+  gap: 30px;
+  margin-bottom: 10px;
 }
 
 input {
-    display: block;
+  display: block;
 }
 
 .button-wrapper {
-    display: flex;
-    gap: 20px;
-    float: inline-end;
+  display: flex;
+  gap: 20px;
+  float: inline-end;
 }
 
 label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-#play-again, #restart-game {
-    display: none;
+#play-again,
+#restart-game {
+  display: none;
 }
 
 h3 {
-    display: flex;
-    gap: 20px;
-    margin-top: 10px;
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
 }
 
 #player-one-title,
 #player-two-title {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 #player-one-title {
-    color: var(--cross-color);
+  color: var(--cross-color);
 }
 
 #player-two-title {
-    color: var(--circle-color);
+  color: var(--circle-color);
 }
 
 h3 span {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 #score-wrapper {
-    display: none;
-    text-align: center;
+  display: none;
+  text-align: center;
 }
 
 p {
-    display: none;
+  display: none;
 }
